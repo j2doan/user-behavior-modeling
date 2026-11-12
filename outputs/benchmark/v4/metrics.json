@@ -1,0 +1,261 @@
+{
+ "rating": {
+  "best_params": {
+   "bias": {
+    "K": 0,
+    "lam_u": 4.0,
+    "lam_i": 16.0,
+    "lam_g": 10.0,
+    "iters": 100,
+    "tol": 1e-07
+   },
+   "mf": null,
+   "folds": 5,
+   "smooth": 5.0
+  },
+  "val": 1.4320913839130889,
+  "test": 1.4274292947424014,
+  "refit_sec": 10,
+  "grid": [
+   {
+    "params": {
+     "bias": {
+      "K": 0,
+      "lam_u": 4.0,
+      "lam_i": 16.0,
+      "lam_g": 10.0,
+      "iters": 100,
+      "tol": 1e-07
+     },
+     "mf": {
+      "K": 5,
+      "lam_u": 4.0,
+      "lam_i": 4.0,
+      "lam_g": 20.0,
+      "iters": 100,
+      "tol": 1e-07
+     },
+     "folds": 5,
+     "smooth": 5.0
+    },
+    "val": 1.4324794362956297,
+    "sec": 154
+   },
+   {
+    "params": {
+     "bias": {
+      "K": 0,
+      "lam_u": 4.0,
+      "lam_i": 16.0,
+      "lam_g": 10.0,
+      "iters": 100,
+      "tol": 1e-07
+     },
+     "mf": null,
+     "folds": 5,
+     "smooth": 5.0
+    },
+    "val": 1.4320913839130889,
+    "sec": 10
+   },
+   {
+    "params": {
+     "bias": {
+      "K": 0,
+      "lam_u": 4.0,
+      "lam_i": 16.0,
+      "lam_g": 10.0,
+      "iters": 100,
+      "tol": 1e-07
+     },
+     "mf": {
+      "K": 5,
+      "lam_u": 4.0,
+      "lam_i": 4.0,
+      "lam_g": 20.0,
+      "iters": 100,
+      "tol": 1e-07
+     },
+     "folds": 5,
+     "smooth": 20.0
+    },
+    "val": 1.4328614444168533,
+    "sec": 150
+   }
+  ]
+ },
+ "read": {
+  "best_params": {
+   "bpr": {
+    "K": 10,
+    "lr": 0.05,
+    "lam": 0.0001,
+    "epochs": 20
+   },
+   "folds": 5,
+   "ease_lam": 100.0
+  },
+  "val": 0.79535,
+  "test": 0.801,
+  "refit_sec": 73,
+  "grid": [
+   {
+    "params": {
+     "bpr": {
+      "K": 10,
+      "lr": 0.05,
+      "lam": 0.0001,
+      "epochs": 20
+     },
+     "folds": 5,
+     "ease_lam": 100.0
+    },
+    "val": 0.79535,
+    "sec": 60
+   },
+   {
+    "params": {
+     "bpr": {
+      "K": 10,
+      "lr": 0.05,
+      "lam": 0.0001,
+      "epochs": 20
+     },
+     "folds": 5,
+     "ease_lam": 500.0
+    },
+    "val": 0.79405,
+    "sec": 63
+   },
+   {
+    "params": {
+     "bpr": {
+      "K": 10,
+      "lr": 0.05,
+      "lam": 0.0001,
+      "epochs": 20
+     },
+     "folds": 5,
+     "ease_lam": 2000.0
+    },
+    "val": 0.79405,
+    "sec": 64
+   }
+  ]
+ },
+ "category": {
+  "best_params": {
+   "C": 8.0,
+   "w_user": 1.0,
+   "char": true,
+   "transformer": "roberta-base",
+   "user_prefix": true,
+   "epochs": 2,
+   "max_len": 256,
+   "batch": 16,
+   "lr": 2e-05,
+   "w_tf": 0.5
+  },
+  "val": 0.8388,
+  "test": 0.838,
+  "refit_sec": 2278,
+  "grid": [
+   {
+    "params": {
+     "C": 8.0,
+     "w_user": 1.0,
+     "char": true,
+     "transformer": "roberta-base",
+     "user_prefix": true,
+     "epochs": 2,
+     "max_len": 256,
+     "batch": 16,
+     "lr": 2e-05,
+     "w_tf": 0.5
+    },
+    "val": 0.8388,
+    "sec": 2014
+   },
+   {
+    "params": {
+     "C": 8.0,
+     "w_user": 1.0,
+     "char": true,
+     "transformer": "roberta-base",
+     "user_prefix": true,
+     "epochs": 2,
+     "max_len": 256,
+     "batch": 16,
+     "lr": 2e-05,
+     "w_tf": 0.7
+    },
+    "val": 0.8359,
+    "sec": 28
+   },
+   {
+    "params": {
+     "C": 8.0,
+     "w_user": 1.0,
+     "char": true,
+     "transformer": "roberta-base",
+     "user_prefix": true,
+     "epochs": 2,
+     "max_len": 256,
+     "batch": 16,
+     "lr": 2e-05,
+     "w_tf": 0.85
+    },
+    "val": 0.8316,
+    "sec": 28
+   },
+   {
+    "params": {
+     "C": 8.0,
+     "w_user": 1.0,
+     "char": true,
+     "transformer": "roberta-base",
+     "user_prefix": true,
+     "epochs": 2,
+     "max_len": 256,
+     "batch": 16,
+     "lr": 2e-05,
+     "w_tf": 1.0
+    },
+    "val": 0.8267,
+    "sec": 28
+   },
+   {
+    "params": {
+     "C": 8.0,
+     "w_user": 1.0,
+     "char": true,
+     "transformer": "roberta-base",
+     "user_prefix": false,
+     "epochs": 2,
+     "max_len": 256,
+     "batch": 16,
+     "lr": 2e-05,
+     "w_tf": 0.5
+    },
+    "val": 0.8311,
+    "sec": 1266
+   },
+   {
+    "params": {
+     "C": 8.0,
+     "w_user": 1.0,
+     "char": true,
+     "transformer": "roberta-base",
+     "user_prefix": false,
+     "epochs": 2,
+     "max_len": 256,
+     "batch": 16,
+     "lr": 2e-05,
+     "w_tf": 0.7
+    },
+    "val": 0.8191,
+    "sec": 28
+   }
+  ]
+ }
+}
