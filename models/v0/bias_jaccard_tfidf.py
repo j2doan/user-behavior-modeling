@@ -18,10 +18,12 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-import implicit
-from implicit.bpr import BayesianPersonalizedRanking
 from scipy.sparse import csr_matrix
 
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(HERE, "..", "..", "data")
+OUT = os.path.join(HERE, "..", "..", "outputs", "v0-output")
 
 random.seed(42)
 np.random.seed(42)
@@ -53,7 +55,7 @@ def Jaccard(s1, s2):
 # Rating prediction                              #
 ##################################################
 
-# ---------- IGNORE, NOT HIGH ENOUGH ACC ----------
+# ---------- unused alternative (lower accuracy) ----------
 # Idea: gradient descent
 # θ = θ + learning_rate ⋅ (error ⋅ grad − reg ⋅ θ)
 # theta being either the about to be new gamma_u or gamma_i
@@ -122,9 +124,9 @@ def Jaccard(s1, s2):
 #     return alpha, betaU, betaI, gammaU, gammaI
 
 # def writePredictionsRating(alpha, betaU, betaI, gammaU, gammaI):
-#     # Write your predictions to a file that you can submit
-#     predictions = open("predictions_Rating.csv", 'w')
-#     for l in open("pairs_Rating.csv"):
+#     # Write predictions to a file
+#     predictions = open(os.path.join(OUT, "predictions_Rating.csv"), "w")
+#     for l in open(os.path.join(DATA, "pairs_Rating.csv")):
 #         if l.startswith("userID"):
 #             predictions.write(l)
 #             continue
@@ -140,9 +142,9 @@ def Jaccard(s1, s2):
 #         _ = predictions.write(u + ',' + b + ',' + str(pred) + '\n')
 
 #     predictions.close()
-# ---------- IGNORE, NOT HIGH ENOUGH ACC ----------
+# ---------- unused alternative (lower accuracy) ----------
 
-# IDEA: HW3 SOLUTION, but higher regularizer lambda and more epoch steps
+# IDEA: bias model (alpha + beta_u + beta_i), with a higher regularizer lambda and more epoch steps
 
 def getGlobalAverage(trainRatings):
     # Return the average rating in the training set
@@ -287,9 +289,9 @@ def goodModel(ratingsTrain, ratingsPerUser, ratingsPerItem, alpha, betaU, betaI)
 
 
 def writePredictionsRating(alpha, betaU, betaI):
-    # Write your predictions to a file that you can submit
-    predictions = open("predictions_Rating.csv", 'w')
-    for l in open("pairs_Rating.csv"):
+    # Write predictions to a file
+    predictions = open(os.path.join(OUT, "predictions_Rating.csv"), "w")
+    for l in open(os.path.join(DATA, "pairs_Rating.csv")):
         if l.startswith("userID"):
             predictions.write(l)
             continue
@@ -314,7 +316,7 @@ def writePredictionsRating(alpha, betaU, betaI):
 # Read prediction                                #
 ##################################################
 
-# ---------- IGNORE THIS, FAILED ATTEMPT ----------
+# ---------- unused alternative ----------
 # IDEA: bayesian personalized ranking
 # r_ui = observed preference
 # 1 if the user read the book, 0 otherwise/we dont know
@@ -408,8 +410,8 @@ def writePredictionsRating(alpha, betaU, betaI):
 #     return filtered
 
 # def writePredictionsRead(model, users, items, threshold):
-#     predictions = open("predictions_Read.csv", 'w')
-#     for l in open("pairs_Read.csv"):
+#     predictions = open(os.path.join(OUT, "predictions_Read.csv"), "w")
+#     for l in open(os.path.join(DATA, "pairs_Read.csv")):
 #         if l.startswith("userID"):
 #             predictions.write(l)
 #             continue
@@ -422,11 +424,11 @@ def writePredictionsRating(alpha, betaU, betaI):
 #         _ = predictions.write(u + ',' + b + ',' + str(pred) + '\n')
 
 #     predictions.close()
-# ---------- IGNORE THIS, FAILED ATTEMPT ----------
+# ---------- unused alternative ----------
 
 
 
-# IDEA: HW3 solution, jaccard similarity + popularity threshold
+# IDEA: jaccard similarity + popularity threshold
 
 def generateValidation(allRatings, ratingsValid):
     # Using ratingsValid, generate two sets:
@@ -454,7 +456,7 @@ def generateValidation(allRatings, ratingsValid):
 def baseLineStrategy(mostPopular, totalRead):
     return1 = set()
     # Compute the set of items for which we should return "True"
-    # This is the same strategy implemented in the baseline code for Assignment 1
+    # Same strategy as the popularity baseline
     count = 0
     for ic, i in mostPopular:
         count += ic
@@ -515,8 +517,8 @@ def jaccardThresh(u,b,ratingsPerItem,ratingsPerUser):
 
 
 def writePredictionsRead(ratingsPerItem, ratingsPerUser):
-    predictions = open("predictions_Read.csv", 'w')
-    for l in open("pairs_Read.csv"):
+    predictions = open(os.path.join(OUT, "predictions_Read.csv"), "w")
+    for l in open(os.path.join(DATA, "pairs_Read.csv")):
         if l.startswith("userID"):
             predictions.write(l)
             continue
@@ -540,10 +542,10 @@ def writePredictionsRead(ratingsPerItem, ratingsPerUser):
 # and only change if there is. save data 
 
 def writePredictionsCategory(pred_test):
-    predictions = open("predictions_Category.csv", 'w')
+    predictions = open(os.path.join(OUT, "predictions_Category.csv"), "w")
     pos = 0
 
-    for l in open("pairs_Category.csv"):
+    for l in open(os.path.join(DATA, "pairs_Category.csv")):
         if l.startswith("userID"):
             predictions.write(l)
             continue
@@ -573,7 +575,8 @@ if __name__ == "__main__":
     # ---------- 0. Initial Setup ----------
     # ######################################
 
-    DATA_DIR = "datasets/assignment1/"
+    os.makedirs(OUT, exist_ok=True)
+    DATA_DIR = DATA + os.sep
 
     # Load rating data
     print("Loading rating data...")
@@ -613,9 +616,7 @@ if __name__ == "__main__":
 
     # Write rating predictions
     print("Writing predictions_Rating.csv...")
-    os.chdir(DATA_DIR)
     writePredictionsRating(alpha, betaU, betaI)
-    os.chdir("../..")   # go back to top-level folder
 
     # ----- CUTOFF HERE FOR HYPERTUNING -----
 
@@ -692,7 +693,7 @@ if __name__ == "__main__":
     # print("Writing predictions_Rating.csv...")
     # os.chdir(DATA_DIR)
     # writePredictionsRating(alpha, betaU, betaI, gammaU, gammaI)
-    # os.chdir("../..")
+    # os.chdir(START_DIR)
 
 
 
@@ -702,7 +703,7 @@ if __name__ == "__main__":
     # ---------- 2. Read prediction ----------
     # ########################################
 
-    # ----- IGNORE THIS, FAILED ATTEMPT -----
+    # ----- unused alternative -----
     # print("Preparing read prediction model...")
 
     # # Make validation sets
@@ -755,8 +756,8 @@ if __name__ == "__main__":
     # print("Writing predictions_Read.csv...")
     # os.chdir(DATA_DIR)
     # writePredictionsRead(model, users_bpr, items_bpr, 0)
-    # os.chdir("../..")
-    # -----IGNORE THIS, FAILED ATTEMPT -----
+    # os.chdir(START_DIR)
+    # ----- unused alternative -----
 
     print("Preparing read prediction model...")
     # Compute item popularity
@@ -771,9 +772,7 @@ if __name__ == "__main__":
     # Write read predictions
     # ------------------------------
     print("Writing predictions_Read.csv...")
-    os.chdir(DATA_DIR)
     writePredictionsRead(ratingsPerItem, ratingsPerUser)
-    os.chdir("../..")
 
 
 
@@ -804,7 +803,7 @@ if __name__ == "__main__":
             sublinear_tf=True,
             smooth_idf=True
         )),
-        ('clf', LogisticRegression(max_iter=5000, multi_class='multinomial', random_state=42))
+        ('clf', LogisticRegression(max_iter=5000, random_state=42))
     ])
 
     # ----- CUTOFF HERE FOR HYPERTUNING -----
@@ -832,9 +831,7 @@ if __name__ == "__main__":
 
     # Write predictions
     print("Writing predictions_Category.csv...")
-    os.chdir(DATA_DIR)
     writePredictionsCategory(pred_test)
-    os.chdir("../..")
 
     print("All prediction files written successfully!")
 

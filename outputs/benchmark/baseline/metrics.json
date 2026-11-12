@@ -1,0 +1,41 @@
+{
+ "rating": {
+  "best_params": {},
+  "val": 1.6812182576648655,
+  "test": 1.669914979060927,
+  "refit_sec": 0,
+  "grid": [
+   {
+    "params": {},
+    "val": 1.6812182576648655,
+    "sec": 0
+   }
+  ]
+ },
+ "read": {
+  "best_params": {},
+  "val": 0.71145,
+  "test": 0.713125,
+  "refit_sec": 0,
+  "grid": [
+   {
+    "params": {},
+    "val": 0.71145,
+    "sec": 0
+   }
+  ]
+ },
+ "category": {
+  "best_params": {},
+  "val": 0.3535,
+  "test": 0.3464,
+  "refit_sec": 0,
+  "grid": [
+   {
+    "params": {},
+    "val": 0.3535,
+    "sec": 0
+   }
+  ]
+ }
+}

@@ -1,5 +1,11 @@
 import gzip
+import os
 from collections import defaultdict
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(HERE, "..", "..", "data")
+OUT = os.path.join(HERE, "..", "..", "outputs", "baseline-output")
+os.makedirs(OUT, exist_ok=True)
 
 def readGz(path):
   for l in gzip.open(path, 'rt'):
@@ -16,7 +22,7 @@ def readCSV(path):
 allRatings = []
 userRatings = defaultdict(list)
 
-for user,book,r in readCSV("train_Interactions.csv.gz"):
+for user,book,r in readCSV(os.path.join(DATA, "train_Interactions.csv.gz")):
   r = int(r)
   allRatings.append(r)
   userRatings[user].append(r)
@@ -26,8 +32,8 @@ userAverage = {}
 for u in userRatings:
   userAverage[u] = sum(userRatings[u]) / len(userRatings[u])
 
-predictions = open("predictions_Rating.csv", 'w')
-for l in open("pairs_Rating.csv"):
+predictions = open(os.path.join(OUT, "predictions_Rating.csv"), 'w')
+for l in open(os.path.join(DATA, "pairs_Rating.csv")):
   if l.startswith("userID"):
     #header
     predictions.write(l)
@@ -45,7 +51,7 @@ predictions.close()
 bookCount = defaultdict(int)
 totalRead = 0
 
-for user,book,_ in readCSV("train_Interactions.csv.gz"):
+for user,book,_ in readCSV(os.path.join(DATA, "train_Interactions.csv.gz")):
   bookCount[book] += 1
   totalRead += 1
 
@@ -60,8 +66,8 @@ for ic, i in mostPopular:
   return1.add(i)
   if count > totalRead/2: break
 
-predictions = open("predictions_Read.csv", 'w')
-for l in open("pairs_Read.csv"):
+predictions = open(os.path.join(OUT, "predictions_Read.csv"), 'w')
+for l in open(os.path.join(DATA, "pairs_Read.csv")):
   if l.startswith("userID"):
     #header
     predictions.write(l)
@@ -84,9 +90,9 @@ catDict = {
   "young_adult": 4
 }
 
-predictions = open("predictions_Category.csv", 'w')
+predictions = open(os.path.join(OUT, "predictions_Category.csv"), 'w')
 predictions.write("userID,reviewID,prediction\n")
-for l in readGz("test_Category.json.gz"):
+for l in readGz(os.path.join(DATA, "test_Category.json.gz")):
   cat = catDict['fantasy_paranormal'] # If there's no evidence, just choose the most common category in the dataset
   words = l['review_text'].lower()
   if 'children' in words:
